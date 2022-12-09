@@ -1,0 +1,7 @@
+{
+  "name": "Realtor",
+  "short_name": "Realtor",
+  "theme_color": "#1AD365",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

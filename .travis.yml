@@ -1,0 +1,24 @@
+dist: trusty
+
+language: java
+
+jdk:
+  - oraclejdk11
+cache:
+  directories:
+    - $HOME/.m2
+    - ./frontend/node_modules/
+addons:
+  sonarcloud:
+    organization: "realtor-final-project"
+    token:
+      secure: "RDb3l6olxf+XYtkhVTEuRw+1KSAM7KyU6cazeGRv98QeQbF6QSZnsCcKWqC77zBckYmJsmQpY3vj5+ZKcbuqxji4UZ3kiWmyO0XTCrMFgMQSUo6os9xbGYtaqY9cFPC1KUzboLkGhyHFgNN/aBz0EsnPeO03+BTNknFdro0555RF/Cxd+/UjGFfzm8dLcetglJPX0vIEfO+V5Uebn92/TWCkLyOrJAM3vkcyyY7u3zAbtWYICTkMvjy0xKKDGCaK9/XuWaWPJmBBvRpQVVvVW/ChWduDy6RumoPkDgyzSAQa3d2cQQE3Sv2LaUQKv/rs/pi/GjA5EAMieS+xGlmRCdyCthuqifise4G5GbU3trgJTXQeZDoIi3YUYsuYP+KSjZZOL99Ny/2U9Xyf4F/B9tbOvegOQ4tid0lu1NkR9kNu5h5mwOyQslrc2DWin7JoBh9x3X2f5fZIaMU2sKu0FKKvqdJ+4fd2koTnn0+UdVQ4H4efhWWFmqVnwDpmhGLl9sZlY/M3D2n0V/WNtbbDwB32aZ31C06j3OnYF8OSXEK6EBDOpMOpBKDTH2S3M4vOqLj6lucSJ/k3LFklwAE/xGpmBuVepDW3r0b9Oetxg6pWCnXWP82FWHSfp6GOEaTSPu42CU+DjgAl8U0geALhN635VdC5YaT/+Jzyfrqcud0="
+before_install:
+  - nvm install node
+before_script:
+  - npm install --prefix ./frontend/
+
+script:
+  - mvn clean test jacoco:report coveralls:report
+  - sonar-scanner
+  - npm run build --prefix ./frontend/

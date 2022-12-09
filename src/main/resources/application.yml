@@ -1,0 +1,67 @@
+server:
+  port: 9000
+spring:
+  profiles:
+    active: prod
+
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:h2:mem:realtor;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;
+    platform: org.hibernate.dialect.h2dialect
+    username: root
+    password: blackwow
+    driverClassName: org.h2.Driver
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: true
+        web-allow-others: true
+
+
+---
+
+spring:
+  profiles: prod
+
+---
+
+spring:
+  profiles: localDb
+  datasource:
+    url: jdbc:mysql://localhost:3306/realtor?serverTimezone=UTC
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    username: root
+    password: ${db.password}
+  #    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:mysql://pioner.mysql.tools:3306/pioner_realtor?serverTimezone=UTC
+    platform: org.hibernate.dialect.MySQLDialect
+    username: pioner_realtor
+    password: ${db.prod.password}
+    #    driver-class-name: com.mysql.jdbc.Driver
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    # initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: validate
+---
